@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroAI - Smart Plant Health Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <span class="logo-icon">🌱</span>
+                <span class="logo-text">AgroAI</span>
+            </div>
+            <button class="close-btn" id="closeBtn">✕</button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" class="nav-item active" data-label="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text" data-en="Home" data-hi="होम" data-kn="ಮುಖ್ಯ ಪುಟ">Home</span>
+            </a>
+            <a href="#upload-section" class="nav-item" data-label="upload" onclick="scrollToSection('#upload-section', event)">
+                <span class="nav-icon">📸</span>
+                <span class="nav-text" data-en="Upload & Predict" data-hi="अपलोड और पूर्वानुमान" data-kn="ಅಪ್ಲೋಡ್ ಮತ್ತು ಭವಿಷ್ಯದ ನಿರ್ಧಾರ">Upload & Predict</span>
+            </a>
+            <a href="#weather-section" class="nav-item" data-label="weather" onclick="scrollToSection('#weather-section', event)">
+                <span class="nav-icon">🌦️</span>
+                <span class="nav-text" data-en="Weather" data-hi="मौसम" data-kn="ಹವಾಮಾನ">Weather</span>
+            </a>
+            <a href="#tips-section" class="nav-item" data-label="tips" onclick="scrollToSection('#tips-section', event)">
+                <span class="nav-icon">💡</span>
+                <span class="nav-text" data-en="Usage Tips" data-hi="उपयोग सुझाव" data-kn="ಬಳಕೆಯ ಸಲಹೆಗಳು">Usage Tips</span>
+            </a>
+            <a href="#about-section" class="nav-item" data-label="about" onclick="scrollToSection('#about-section', event)">
+                <span class="nav-icon">ℹ️</span>
+                <span class="nav-text" data-en="About" data-hi="बारे में" data-kn="ಬಗ್ಗೆ">About</span>
+            </a>
+        </nav>
+
+        <!-- Language Menu -->
+        <div class="language-menu" id="languageMenu" style="display: none;">
+            <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
+            <button class="lang-btn" onclick="setLanguage('hi')">🇮🇳 हिंदी</button>
+            <button class="lang-btn" onclick="setLanguage('kn')">🇮🇳 ಕನ್ನಡ</button>
+        </div>
+
+        <div class="sidebar-footer">
+            <p data-en="S3V Developers" data-hi="S3V डेवलपर्स" data-kn="S3V ಡೆವಲಪರ್ಸ್">S3V Developers</p>
+        </div>
+    </aside>
+
+    <!-- Hamburger Menu -->
+    <button class="hamburger" id="hamburger">☰</button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">🌱 AgroAI – Smart Plant Health Assistant</h1>
+                <p class="app-subtitle" data-en="Helping farmers detect plant diseases early using simple image-based analysis and smart AI simulation." data-hi="किसानों को सरल छवि-आधारित विश्लेषण और स्मार्ट एआई सिमुलेशन का उपयोग करके पौधों की बीमारियों का जल्दी पता लगाने में सहायता करना।" data-kn="ರೈತರಿಗೆ ಸರಳ ಚಿತ್ರ-ಆಧಾರಿತ ವಿಶ್ಲೇಷಣ ಮತ್ತು ಸ್ಮಾರ್ಟ್ AI ಸಿಮುಲೇಶನ್ ಬಳಸಿ ಸಸ್ಯ ರೋಗಗಳನ್ನು ಬೇಗ ಕಂಡುಹಿಡಿಯಲು ಸಹಾಯ ಮಾಡುವುದು।">Helping farmers detect plant diseases early using simple image-based analysis and smart AI simulation.</p>
+                <p class="app-tagline" data-en="Built for sustainable agriculture and smarter crop care." data-hi="टिकाऊ कृषि और स्मार्ट फसल देखभाल के लिए निर्मित।" data-kn="ಸುಸ್ಥಿರ ಕೃಷಿ ಮತ್ತು ಸ್ಮಾರ್ಟ್ ಫಸಲ್ ಕಾಳುವ ನಿವಾರಣೆಗಾಗಿ ನಿರ್ಮಿತ।">Built for sustainable agriculture and smarter crop care.</p>
+            </div>
+        </header>
+
+        <!-- Analysis Results Section -->
+        <section class="dashboard-section" id="results-section" style="display: none;">
+            <h2 class="section-title" data-en="Analysis Results" data-hi="विश्लेषण परिणाम" data-kn="ವಿಶ್ಲೇಷಣ ಫಲಿತಾಂಶಗಳು">Analysis Results</h2>
+            <div class="result-card" id="resultCard">
+                <div id="resultContent">
+                    <p data-en="Processing your image..." data-hi="आपकी छवि संसाधित हो रही है..." data-kn="ನಿಮ್ಮ ಚಿತ್ರವನ್ನು ಸಂಸ್ಕರಿಸಲಾಗುತ್ತಿದೆ...">Processing your image...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload Section -->
+        <section class="dashboard-section" id="upload-section">
+            <h2 class="section-title" data-en="Upload & Analyze Plant" data-hi="पौधे को अपलोड और विश्लेषण करें" data-kn="ಸಸ್ಯವನ್ನು ಅಪ್ಲೋಡ್ ಮತ್ತು ವಿಶ್ಲೇಷಿಸಿ">Upload & Analyze Plant</h2>
+            
+            <div class="upload-container">
+                <form id="uploadForm" action="/predict" method="post" enctype="multipart/form-data">
+                    <!-- Drag & Drop Zone -->
+                    <div class="drag-drop-zone" id="dragDropZone">
+                        <div class="drag-drop-content">
+                            <div class="drag-icon">📷</div>
+                            <h3 data-en="Drag & Drop Your Image" data-hi="अपनी छवि खींचें और छोड़ें" data-kn="ನಿಮ್ಮ ಚಿತ್ರವನ್ನು ಎಳೆಯಿರಿ ಮತ್ತು ಬಿಡಿ">Drag & Drop Your Image</h3>
+                            <p data-en="or click to browse" data-hi="या ब्राउज़ करने के लिए क्लिक करें" data-kn="ಅಥವಾ ಬ್ರೌಜ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ">or click to browse</p>
+                            <input type="file" id="fileInput" name="file" accept="image/*" required>
+                        </div>
+                    </div>
+
+                    <!-- Image Preview -->
+                    <div class="image-preview-container" id="previewContainer" style="display: none;">
+                        <img id="previewImage" alt="Image Preview">
+                        <div class="preview-actions">
+                            <button type="button" class="btn btn-secondary" onclick="clearPreview()" data-en="Change Image" data-hi="छवि बदलें" data-kn="ಚಿತ್ರ ಬದಲಾಯಿಸಿ">Change Image</button>
+                        </div>
+                    </div>
+
+                    <!-- Analyze Button -->
+                    <button type="submit" class="btn btn-primary btn-lg" data-en="🔍 Analyze Plant" data-hi="🔍 पौधे का विश्लेषण करें" data-kn="🔍 ಸಸ್ಯವನ್ನು ವಿಶ್ಲೇಷಿಸಿ">🔍 Analyze Plant</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Weather Section -->
+        <section class="dashboard-section" id="weather-section">
+            <h2 class="section-title" data-en="Weather" data-hi="मौसम" data-kn="ಹವಾಮಾನ">Weather</h2>
+            <div class="weather-card" id="weatherContent" onclick="showWeatherDetails()" style="cursor: pointer;">
+                <div class="weather-info">
+                    <div class="weather-icon">⛅</div>
+                    <div class="weather-label" data-en="Loading weather..." data-hi="मौसम लोड हो रहा है..." data-kn="ಹವಾಮಾನ ಲೋಡ್ ಆಗುತ್ತಿದೆ...">Loading weather...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Details Modal -->
+        <div class="weather-modal" id="weatherModal" style="display: none;">
+            <div class="weather-modal-content">
+                <button class="weather-modal-close" onclick="closeWeatherDetails()">×</button>
+                <h2 data-en="Weather Details" data-hi="मौसम विवरण" data-kn="ಹವಾಮಾನ ವಿವರಗಳು">Weather Details</h2>
+                <div id="weatherDetailsContent" style="padding: 20px;">
+                    <p data-en="Loading weather details..." data-hi="मौसम विवरण लोड हो रहे हैं..." data-kn="ಹವಾಮಾನ ವಿವರಗಳು ಲೋಡ್ ಆಗುತ್ತಿದೆ...">Loading weather details...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <section class="dashboard-section" id="tips-section">
+            <h2 class="section-title" data-en="How to Use AgroAI" data-hi="AgroAI का उपयोग कैसे करें" data-kn="AgroAI ಅನ್ನು ಹೇಗೆ ಬಳಸುವುದು">How to Use AgroAI</h2>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <h3 data-en="Upload Clear Image" data-hi="स्पष्ट छवि अपलोड करें" data-kn="ಸ್ಪಷ್ಟ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ">Upload Clear Image</h3>
+                    <p data-en="Take a photo of the affected plant leaf" data-hi="प्रभावित पौधे की पत्ती की फोटो लें" data-kn="ಪ್ರಭಾವಿತ ಸಸ್ಯ ಎಲೆಯ ಫೋಟೋ ತೆಗೆದುಕೊಳ್ಳಿ">Take a photo of the affected plant leaf</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <h3 data-en="Click Analyze Plant" data-hi="पौधे का विश्लेषण करें पर क्लिक करें" data-kn="ಸಸ್ಯವನ್ನು ವಿಶ್ಲೇಷಿಸಿ ಬಟನ್ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ">Click Analyze Plant</h3>
+                    <p data-en="Our smart system will detect the disease" data-hi="हमारी स्मार्ट प्रणाली बीमारी का पता लगाएगी" data-kn="ನಮ್ಮ ಸ್ಮಾರ್ಟ್ ಸಿಸ್ಟಮ್ ರೋಗವನ್ನು ಸনಿಶ್ಚಿತ ಮಾಡುತ್ತದೆ">Our smart system will detect the disease</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <h3 data-en="View Results" data-hi="परिणाम देखें" data-kn="ಫಲಿತಾಂಶಗಳನ್ನು ನೋಡಿ">View Results</h3>
+                    <p data-en="Get detailed disease information and treatment" data-hi="विस्तृत रोग जानकारी और उपचार प्राप्त करें" data-kn="ವಿವರವಾದ ರೋಗ ಮಾಹಿತಿ ಮತ್ತು ಚಿಕಿತ್ಸೆ ಪಡೆಯಿರಿ">Get detailed disease information and treatment</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <h3 data-en="Apply Prevention" data-hi="रोकथाम लागू करें" data-kn="ತಡೆಗಟ್ಟುವಿಕೆ ಅನ್ವಯ ಮಾಡಿ">Apply Prevention</h3>
+                    <p data-en="Follow tips to prevent future diseases" data-hi="भविष्य की बीमारियों को रोकने के लिए सुझावों का पालन करें" data-kn="ಭವಿಷ್ಯತ್ತಿನ ರೋಗಗಳನ್ನು ತಡೆಗಟ್ಟಲು ಸಲಹೆಗಳನ್ನು ಅನುಸರಿಸಿ">Follow tips to prevent future diseases</p>
+                </div>
+            </div>
+
+            <div class="extra-tips">
+                <h3 data-en="Pro Tips:" data-hi="पेशेवर सुझाव:" data-kn="ವಿಶೇಷ ಸಲಹೆ:">Pro Tips:</h3>
+                <ul>
+                    <li data-en="✓ Use natural sunlight for clear images" data-hi="✓ स्पष्ट छवियों के लिए प्राकृतिक सूर्य के प्रकाश का उपयोग करें" data-kn="✓ ಸ್ಪಷ್ಟ ಚಿತ್ರಗಳಿಗೆ ನೈಸರ್ಗಿಕ ಸೂರ್ಯನ ಬೆಳಕನ್ನು ಬಳಸಿ">✓ Use natural sunlight for clear images</li>
+                    <li data-en="✓ Avoid blurry or low-quality photos" data-hi="✓ धुंधली या कम गुणवत्ता की तस्वीरों से बचें" data-kn="✓ ಐತಿಹ್ಯಾತ್ಮಕ ಅಥವಾ ಕಡಿಮೆ ಗುಣಮಾನದ ಚಿತ್ರಗಳನ್ನು ತಪ್ಪಿಸಿ">✓ Avoid blurry or low-quality photos</li>
+                    <li data-en="✓ Capture the whole affected area" data-hi="✓ पूरे प्रभावित क्षेत्र को कैप्चर करें" data-kn="✓ ಸಂಪೂರ್ಣ ಪ್ರಭಾವಿತ ಪ್ರದೇಶವನ್ನು ಸೆರೆಹೊಡೆಯಿರಿ">✓ Capture the whole affected area</li>
+                    <li data-en="✓ Close-up photos work best" data-hi="✓ क्लोज-अप तस्वीरें सबसे अच्छी तरह काम करती हैं" data-kn="✓ ಕ್ಲೋಸ್-ಅಪ್ ಫೋಟೋಗಳು ಉತ್ತಮವಾಗಿ ಕೆಲಸ ಮಾಡುತ್ತವೆ">✓ Close-up photos work best</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="dashboard-section" id="about-section">
+            <h2 class="section-title" data-en="About AgroAI" data-hi="AgroAI के बारे में" data-kn="AgroAI ಬಗ್ಗೆ">About AgroAI</h2>
+            
+            <div class="about-content">
+                <div class="about-card">
+                    <h3 data-en="Our Mission" data-hi="हमारा मिशन" data-kn="ನಮ್ಮ ಮಿಷನ್">Our Mission</h3>
+                    <p data-en="AgroAI is dedicated to helping farmers and agricultural professionals detect plant diseases early using modern AI technology combined with simple, effective image analysis." data-hi="AgroAI किसानों और कृषि पेशेवरों को आधुनिक AI तकनीक और सरल, प्रभावी छवि विश्लेषण का उपयोग करके पौधों की बीमारियों का जल्दी पता लगाने में मदद करने के लिए समर्पित है।" data-kn="AgroAI ರೈತರು ಮತ್ತು ಕೃಷಿ ವೃತ್ತಿಪರರಿಗೆ ಆಧುನಿಕ AI ತಂತ್ರಜ್ಞಾನ ಮತ್ತು ಸರಳ, ಪ್ರಭಾವಶಾಲಿ ಚಿತ್ರ ವಿಶ್ಲೇಷಣವನ್ನು ಬಳಸಿ ಸಸ್ಯ ರೋಗಗಳನ್ನು ಬೇಗ ಕಂಡುಹಿಡಿಯಲು ಸಹಾಯ ಮಾಡಲು ಸಮರ್ಪಿತ ಆಗಿದೆ।">AgroAI is dedicated to helping farmers and agricultural professionals detect plant diseases early using modern AI technology combined with simple, effective image analysis.</p>
+                </div>
+
+                <div class="about-card">
+                    <h3 data-en="Team: S3V Developers" data-hi="टीम: S3V डेवलपर्स" data-kn="ತಂಡ: S3V ಡೆವಲಪರ್ಸ್">Team: S3V Developers</h3>
+                    <p data-en="A passionate team of developers committed to bringing intelligent agricultural solutions to farmers worldwide." data-hi="विश्वभर के किसानों को बुद्धिमान कृषि समाधान लाने के लिए प्रतिबद्ध डेवलपर्स की एक समर्पित टीम।" data-kn="ವಿಶ್ವವ್ಯಾಪಿ ರೈತರಿಗೆ ಬುದ್ಧಿಮಾನ್ಯ ಕೃಷಿ ಪರಿಹಾರಗಳನ್ನು ತರಲು ಪ್ರತಿಬದ್ಧ ವಿಕಾಸಕ ತಂಡ।">A passionate team of developers committed to bringing intelligent agricultural solutions to farmers worldwide.</p>
+                </div>
+
+                <div class="contact-info">
+                    <h3 data-en="Contact Us" data-hi="हमसे संपर्क करें" data-kn="ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ">Contact Us</h3>
+                    <p>📧 <a href="mailto:thantrysharanya@gmail.com">thantrysharanya@gmail.com</a></p>
+                    <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);" data-en="✅ Works Offline - No Internet Required!" data-hi="✅ ऑफ़लाइन काम करता है - इंटरनेट की आवश्यकता नहीं!" data-kn="✅ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತದೆ - ಇಂಟರನೆಟ್ ಅಗತ್ಯವಿಲ್ಲ!">✅ Works Offline - No Internet Required!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p>🌱 <strong>AgroAI – Smart Plant Health Assistant</strong></p>
+            <p data-en="Team: S3V Developers | Contact: thantrysharanya@gmail.com" data-hi="टीम: S3V डेवलपर्स | संपर्क: thantrysharanya@gmail.com" data-kn="ತಂಡ: S3V ಡೆವಲಪರ್ಸ್ | ಸಂಪರ್ಕ: thantrysharanya@gmail.com">Team: S3V Developers | Contact: thantrysharanya@gmail.com</p>
+            <p class="disclaimer" data-en="⚖️ This project is for educational purposes only. Not a substitute for professional agricultural advice." data-hi="⚖️ यह परियोजना केवल शैक्षणिक उद्देश्यों के लिए है। पेशेवर कृषि सलाह का विकल्प नहीं है।" data-kn="⚖️ ಈ ಯೋಜನೆ ಶೈಕ್ಷಣಿಕ ಉದ್ದೇಶಗಳಿಗಾಗಿ ಮಾತ್ರ. ವೃತ್ತಿಪರ ಕೃಷಿ ಸಲಹೆಗಳ ಬದಲಿಯಲ್ಲ.">⚖️ This project is for educational purposes only. Not a substitute for professional agricultural advice.</p>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
